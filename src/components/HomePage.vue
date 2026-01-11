@@ -1,0 +1,500 @@
+<template>
+  <div class="page-root">
+    <!-- 🔥 Hero / Carousel（滿版） -->
+    <section class="hero">
+      <div class="carousel-track">
+        <img
+          v-for="(img, index) in images"
+          :key="index"
+          :src="img"
+          class="slide"
+          :class="{ active: index === currentSlide }"
+        />
+      </div>
+
+      <div class="hero-overlay">
+        <div></div>
+
+        <nav class="nav-overlay">
+          <!-- <router-link to="/RoomIntro" class="nav_word"> 網站路口 </router-link> -->
+          <a @click.prevent="scrollToQuickSearch" href="#quick-search"
+            >快速查詢空房</a
+          >
+        </nav>
+      </div>
+    </section>
+
+    <!-- 🔹 內容區（限制寬度） -->
+    <section class="container">
+      <div class="grid grid-3">
+        <!-- 公告 -->
+        <div class="card" v-if="notSearchRooms">
+          <h2>最新公告</h2>
+          <ul>
+            <li v-for="ann in announcements" :key="ann.id" class="ann-item">
+              <div>
+                <strong>{{ ann.title }}</strong
+                ><br />
+                <span class="date">發布日期：{{ ann.publishedAt }}</span>
+              </div>
+              <!-- <button class="read-btn">閱讀</button> -->
+            </li>
+          </ul>
+        </div>
+
+        <!-- 顯示空房資訊 -->
+        <div v-else>
+          <div class="card">
+            <DataTable
+              :value="products"
+              showGridlines
+              tableStyle="min-width: 50rem"
+            >
+              <Column field="roomType" header="客房類型">
+                <template #body="{ data }">
+                  <div class="flex flex-column gap-2">
+                    <div class="text-blue-600 font-bold text-lg">
+                      {{ data.roomType }}
+                    </div>
+
+                    <div class="text-gray-700">
+                      {{ data.bedInfo || "—" }}
+                    </div>
+
+                    <div class="text-sm text-gray-600">
+                      <span
+                        v-for="a in data.roomAmenities"
+                        :key="a.amenityId"
+                        class="mr-2"
+                      >
+                        {{ a.amenityName }}
+                      </span>
+                    </div>
+                  </div>
+                </template>
+              </Column>
+
+              <Column field="capacity" header="住客人數"
+                ><template #body="slotProps">
+                  <div class="flex gap-1">
+                    <i
+                      v-for="n in slotProps.data.capacity"
+                      :key="n"
+                      class="pi pi-user text-xl"
+                    ></i>
+                  </div> </template
+              ></Column>
+              <Column field="basePrice" header="房間價格"></Column>
+              <Column field="remarks" header="預訂須知"></Column>
+              <Column field="availableCounts" header="選擇數量">
+                <!-- <template #body="{ data }">
+                  <Select
+                    v-model="data.selectedQty"
+                    :options="getCountOptions(data)"
+                    placeholder="請選擇數量"
+                  />
+                </template> -->
+                <template #body="{ data }">
+                  <Select
+                    :modelValue="data.selectedQty"
+                    :options="getCountOptions(data)"
+                    placeholder="請選擇數量"
+                    @update:modelValue="
+                      (qty) => {
+                        data.selectedQty = qty;
+                        updateCart(data, qty);
+                      }
+                    "
+                  />
+                </template>
+              </Column>
+            </DataTable>
+          </div>
+        </div>
+
+        <!-- 快速查詢 -->
+        <div class="card">
+          <section id="quick-search" ref="quickSearchRef">
+            <div style="display: flex; justify-content: space-between">
+              <h2>快速查詢空房</h2>
+              <Button
+                style="height: 30px; margin-top: 25px"
+                @click="notSearchRooms = !notSearchRooms"
+              >
+                顯示空房資訊
+              </Button>
+            </div>
+
+            <label>入住日期</label>
+            <br />
+            <DatePicker v-model="checkIn" dateFormat="yy/mm/dd" fluid />
+            <br />
+            <label>退房日期</label>
+            <br />
+            <DatePicker v-model="checkOut" dateFormat="yy/mm/dd" fluid />
+            <br />
+
+            <div style="gap: 20px">
+              <label>房型:</label>
+            </div>
+
+            <br />
+            <Select
+              style="width: 100%"
+              v-model="roomType"
+              :options="rooms"
+              optionLabel="room"
+              optionValue="count"
+              placeholder="請選擇房型"
+            />
+
+            <p class="err">{{ errorMsg }}</p>
+            <Button
+              v-if="!notSearchRooms"
+              style="width: 100%; margin-bottom: 15px"
+              label="搜尋房間"
+              severity="info"
+              @click="SearchVacantRoom"
+            />
+
+            <button class="btn-primary" @click="OrederRooms">訂房</button>
+
+            <br /><br />
+            <button class="btn-secondary" @click="clearForm">清除</button>
+          </section>
+        </div>
+      </div>
+
+      <footer>
+        <div>© {{ year }} 飯店名稱。版權所有。</div>
+        <div class="service">客服 (02) 1234-5678</div>
+      </footer>
+    </section>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from "vue";
+import Select from "primevue/select";
+import DatePicker from "primevue/datepicker";
+import { Button } from "primevue";
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import api from "../api/api";
+import img1 from "../assets/1-3.jpeg";
+import img2 from "../assets/210513113644708-L.jpg";
+import img3 from "../assets/210617142250126-XXL.jpg";
+import dayjs from "dayjs";
+import { useRouter } from "vue-router";
+const products = ref([]);
+const router = useRouter();
+/* ===== 輪播 ===== */
+const images = [img1, img2, img3];
+const currentSlide = ref(0);
+let timer = null;
+
+const quickSearchRef = ref(null);
+
+function scrollToQuickSearch() {
+  // 平滑滾動到「快速查詢空房」
+  quickSearchRef.value?.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+}
+
+onMounted(() => {
+  timer = setInterval(() => {
+    currentSlide.value = (currentSlide.value + 1) % images.length;
+  }, 3000);
+  Announcements();
+});
+
+onUnmounted(() => clearInterval(timer));
+
+/* ===== 公告 ===== */
+const announcements = ref([]);
+
+/* ===== 房型 ===== */
+const rooms = ref([
+  { room: "單人房", count: "single" },
+  { room: "雙人房", count: "double" },
+  { room: "豪華雙人房", count: "deluxe-double-no-win" },
+  { room: "三人房", count: "triple" },
+]);
+
+/* ===== 查詢 ===== */
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+const checkIn = ref(new Date());
+const checkOut = ref(tomorrow);
+const roomType = ref("");
+const errorMsg = ref("");
+const bedInfo = ref([]);
+const remarks = ref([]);
+const cartRooms = ref([]);
+const notSearchRooms = ref(true);
+errorMsg.value = "";
+/* ===== 建立訂單 ===== */
+
+async function SearchVacantRoom() {
+  try {
+    const response = await api.get("/GetRoomsAll/fullSearch", {
+      params: {
+        RoomTypeCode: roomType.value,
+        CheckInDate: dayjs(checkIn.value).format("YYYY-MM-DD"),
+        CheckOutDate: dayjs(checkOut.value).format("YYYY-MM-DD"),
+      },
+    });
+    const res = response.data;
+    products.value = (res.searchResult ?? []).map((r) => ({
+      ...r,
+      selectedQty: 0,
+    }));
+
+    bedInfo.value = res.bedInfo ?? [];
+    remarks.value = res.remarks ?? [];
+
+    notSearchRooms.value = false;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function Announcements() {
+  try {
+    const response = await api.get("/Announcement");
+    announcements.value = response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function OrederRooms() {
+  // const selected = products.value.find((p) => p.selectedQty > 0); 撈單筆資料
+
+  // 撈多筆資料
+  const selected = products.value
+    .filter((p) => p.selectedQty > 0)
+    .map((p) => ({
+      roomType: p.roomType,
+      roomTypeId: p.id,
+      quantity: p.selectedQty,
+      unitPrice: p.basePrice,
+    }));
+
+  if (!selected || !roomType.value) {
+    alert("請選擇房型與數量");
+    return;
+  }
+
+  // 2️⃣ 讀取「已存在的 rooms（購物車）」
+  const oldRooms = router.currentRoute.value.query.rooms
+    ? JSON.parse(router.currentRoute.value.query.rooms)
+    : [];
+
+  // 3️⃣ 合併（同 roomTypeId → 更新數量）
+  selected.forEach((newRoom) => {
+    const exist = oldRooms.find((r) => r.roomTypeId === newRoom.roomTypeId);
+
+    if (exist) {
+      exist.quantity = newRoom.quantity; // 覆蓋數量
+    } else {
+      oldRooms.push(newRoom); // 新增
+    }
+  });
+
+  router.push({
+    path: "/Booking",
+    query: {
+      checkInDate: dayjs(checkIn.value).format("YYYY-MM-DD"),
+      checkOutDate: dayjs(checkOut.value).format("YYYY-MM-DD"),
+      rooms: JSON.stringify(cartRooms.value),
+    },
+  });
+}
+
+function clearForm() {
+  checkIn.value = "";
+  checkOut.value = "";
+  roomType.value = "";
+  errorMsg.value = "";
+}
+
+function getMaxBookableCount(room) {
+  if (!room.details || room.details.length === 0) return 0;
+  return Math.min(...room.details.map((d) => d.availableCount));
+}
+
+function getCountOptions(room) {
+  const max = getMaxBookableCount(room);
+  return Array.from({ length: max }, (_, i) => i + 1);
+}
+function updateCart(room, qty) {
+  const exist = cartRooms.value.find((r) => r.roomTypeId === room.id);
+
+  if (qty === 0 || qty == null) {
+    // 移除
+    cartRooms.value = cartRooms.value.filter((r) => r.roomTypeId !== room.id);
+    return;
+  }
+
+  if (exist) {
+    exist.quantity = qty;
+  } else {
+    cartRooms.value.push({
+      roomType: room.roomType,
+      roomTypeId: room.id,
+      quantity: qty,
+      unitPrice: room.basePrice,
+    });
+  }
+}
+
+const year = new Date().getFullYear();
+</script>
+
+<style scoped>
+/* ===== 基本 ===== */
+.page-root {
+  min-height: 100vh;
+  font-family: sans-serif;
+  background: #f5f5f5;
+}
+
+/* ===== Hero / Carousel ===== */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.carousel-track {
+  position: absolute;
+  inset: 0;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.hero-overlay {
+  position: relative;
+  z-index: 2;
+  color: white;
+  padding: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.service {
+  font-weight: bold;
+}
+
+/* ===== Content ===== */
+.container {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.grid {
+  display: grid;
+  gap: 20px;
+}
+
+.grid-3 {
+  grid-template-columns: 2fr 1fr;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.ann-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.ann-item:hover {
+  background: #f0f0f0;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background: #4f46e5;
+  color: white;
+  width: 100%;
+}
+
+.btn-secondary {
+  background: #e5e7eb;
+  width: 100%;
+}
+
+.err {
+  color: red;
+}
+
+footer {
+  margin-top: 40px;
+  text-align: center;
+  color: #777;
+}
+
+.nav-overlay a {
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  font-style: inherit;
+  letter-spacing: 1px;
+
+  /* border: 1px solid #000; */
+  padding: 10px 20px;
+  display: inline-block;
+  border-radius: 20px;
+  /* 圓角 */
+  transition: all 1s ease;
+
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000;
+}
+
+.nav-overlay :hover {
+  background: linear-gradient(to top, #5f5e5953, #dedede5c);
+  /* color: black; */
+  border-bottom: 2px solid white;
+}
+</style>
