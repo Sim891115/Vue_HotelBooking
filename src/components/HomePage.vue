@@ -164,13 +164,54 @@
           </section>
         </div>
       </div>
-
-      <footer>
-        <div>© {{ year }} 飯店名稱。版權所有。</div>
-        <div class="service">客服 (02) 1234-5678</div>
-      </footer>
     </section>
   </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3>五尊佛大飯店</h3>
+        <p>
+          以舒適睡眠與高隱私為核心，提供旅人更細緻的住宿體驗。歡迎您蒞臨，享受更從容的旅程節奏。
+        </p>
+        <br /><br />
+        <div>
+          <a class="badge">Check-in 15:00</a>
+          <br />
+          <a class="badge">Check-out 11:00</a>
+        </div>
+      </div>
+
+      <!-- 🔽 Google Map -->
+      <!-- <div class="footer-col"> -->
+      <div class="map-info">
+        <h3>飯店資訊</h3>
+        <p>地址：臺中市南屯區公益路二段51號18樓</p>
+        <p>電話：04-1234-5678</p>
+        <a href="mailto:service@wuzunfo-hotel.example"
+          >信箱：service@wuzunfo-hotel.example</a
+        >
+      </div>
+
+      <div class="map">
+        <iframe
+          src="https://www.google.com/maps?q=台中市南屯區公益路二段51號&output=embed"
+          width="450"
+          height="300"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+        ></iframe>
+      </div>
+      <!-- </div> -->
+    </div>
+
+    <div class="footer-bottom">
+      <span>五尊佛大飯店 © <span id="year"></span> All Rights Reserved.</span>
+      <span>Design & Development: Lab Demo</span>
+    </div>
+  </footer>
 </template>
 
 <script setup>
@@ -505,10 +546,107 @@ button {
   color: red;
 }
 
-footer {
-  margin-top: 40px;
+/* Footer */
+footer.site-footer {
+  background: #0b0b0b;
+  color: rgba(255, 255, 255, 0.86);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 20px;
+}
+
+.footer-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 34px 5px 18px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 18px;
+}
+
+@media (max-width: 980px) {
+  .footer-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+.footer-brand h3 {
+  /* margin: 0 0 8px; */
+  font-size: 16px;
+  font-weight: 900;
+  /* letter-spacing: 1px; */
+}
+
+.footer-brand p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.7;
+  font-size: 14px;
+  max-width: 520px;
+}
+
+.footer-col h4 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.92);
+  text-transform: uppercase;
+}
+
+.footer-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 14px;
+  padding: 4px 0;
+  display: inline-block;
+}
+
+.footer-links a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px 20px;
+  max-width: var(--container);
+  margin: 0 auto;
+  display: block;
   text-align: center;
-  color: #777;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 13px;
+}
+
+/* google 地圖 */
+.footer-col {
+  display: flex; /* ★ 讓子元素左右排列 */
+  align-items: flex-start;
+}
+.map-info {
+  /* width: 40%; */
+  color: #fff;
+}
+.map {
+  /* width: 60%; */
+  margin-left: auto; /* ★ 這行就是重點 */
+}
+
+.map iframe {
+  /* width: 100%;
+  height: 100%; */
+  border: 0;
+  border-radius: 12px;
 }
 
 .nav-overlay a {

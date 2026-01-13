@@ -267,20 +267,9 @@
           以舒適睡眠與高隱私為核心，提供旅人更細緻的住宿體驗。歡迎您蒞臨，享受更從容的旅程節奏。
         </p>
         <div style="margin-top: 12px">
-          <span class="badge">Check-in 15:00</span>
-          <span class="badge">Check-out 11:00</span>
+          <a class="badge">Check-in 15:00</a>
+          <a class="badge">Check-out 11:00</a>
         </div>
-      </div>
-
-      <div class="footer-col">
-        <h4>快速連結</h4>
-        <ul class="footer-links">
-          <li></li>
-          <li><a href="#">客房介紹</a></li>
-          <li><a href="#">飯店設施</a></li>
-          <li><a href="#">線上訂房</a></li>
-          <li></li>
-        </ul>
       </div>
 
       <div class="footer-col">
@@ -292,8 +281,12 @@
               >信箱：service@wuzunfo-hotel.example</a
             >
           </li>
-          <li><a href="#">地址：台中市（示意）</a></li>
-          <li><a href="#">服務時間：24 小時</a></li>
+          <li>
+            <a
+              href="https://www.google.com/maps/place/%E8%B3%87%E5%B1%95%E5%9C%8B%E9%9A%9B-%E5%8E%9F+%E8%B3%87%E7%AD%96%E6%9C%83-%E6%95%B8%E4%BD%8D%E6%95%99%E8%82%B2%E7%A0%94%E7%A9%B6%E6%89%80-%E4%B8%AD%E5%8D%80/data=!4m2!3m1!1s0x0:0x334dfd5796c49ff6?sa=X&ved=1t:2428&ictx=111"
+              >地址：臺中市南屯區公益路二段51號18樓</a
+            >
+          </li>
         </ul>
       </div>
     </div>

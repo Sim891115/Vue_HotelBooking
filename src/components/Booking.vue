@@ -140,16 +140,48 @@
           </router-link>
         </div>
       </div>
-
-      <footer>
-        <p>
-          ©
-          <span id="year">{{ new Date().getFullYear() }}</span>
-          飯店名稱。版權所有。
-        </p>
-      </footer>
     </div>
   </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3>五尊佛大飯店</h3>
+        <p>
+          以舒適睡眠與高隱私為核心，提供旅人更細緻的住宿體驗。歡迎您蒞臨，享受更從容的旅程節奏。
+        </p>
+        <div style="margin-top: 12px">
+          <a class="badge">Check-in 15:00</a>
+          <br />
+          <a class="badge">Check-out 11:00</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>聯絡資訊</h4>
+        <ul class="footer-links">
+          <li><a href="tel:+886-4-1234-5678">電話：04-1234-5678</a></li>
+          <li>
+            <a href="mailto:service@wuzunfo-hotel.example"
+              >信箱：service@wuzunfo-hotel.example</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://www.google.com/maps/place/%E8%B3%87%E5%B1%95%E5%9C%8B%E9%9A%9B-%E5%8E%9F+%E8%B3%87%E7%AD%96%E6%9C%83-%E6%95%B8%E4%BD%8D%E6%95%99%E8%82%B2%E7%A0%94%E7%A9%B6%E6%89%80-%E4%B8%AD%E5%8D%80/data=!4m2!3m1!1s0x0:0x334dfd5796c49ff6?sa=X&ved=1t:2428&ictx=111"
+              >地址：臺中市南屯區公益路二段51號18樓</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>五尊佛大飯店 © <span id="year"></span> All Rights Reserved.</span>
+      <span>Design & Development: Lab Demo</span>
+    </div>
+  </footer>
 </template>
 
 <script setup>
@@ -306,7 +338,8 @@ async function orderSend() {
   background: white;
   padding: 40px;
   border-radius: 16px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
     0 8px 10px -6px rgba(0, 0, 0, 0.1);
   border: 1px solid #f1f5f9;
 }
@@ -437,10 +470,84 @@ h2 {
 }
 
 /* Footer */
-footer {
-  margin-top: 40px;
+footer.site-footer {
+  background: #0b0b0b;
+  color: rgba(255, 255, 255, 0.86);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 20px;
+}
+
+.footer-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 34px 20px 18px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 18px;
+}
+
+@media (max-width: 980px) {
+  .footer-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+.footer-brand h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.footer-brand p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.7;
+  font-size: 14px;
+  max-width: 520px;
+}
+
+.footer-col h4 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.92);
+  text-transform: uppercase;
+}
+
+.footer-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 14px;
+  padding: 4px 0;
+  display: inline-block;
+}
+
+.footer-links a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px 20px;
+  max-width: var(--container);
+  margin: 0 auto;
+  display: block;
   text-align: center;
-  color: #94a3b8;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  color: rgba(255, 255, 255, 0.62);
   font-size: 13px;
 }
 /* 信用卡到期日 */
