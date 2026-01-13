@@ -189,24 +189,51 @@ const CardCvc = ref("");
 // 送出訂單
 async function orderSend() {
   try {
-    const response = await api.post("/bookings/create/Guest", {
-      checkinDate: bookingData.value.checkInDate,
-      checkoutDate: bookingData.value.checkOutDate,
-      currency: "TWD",
-
-      guestIdNumber: guestIdNumber.value,
-      guestName: Name.value,
-      guestEmail: Email.value,
-      guestPhone: Phone.value,
-
-      items: bookingData.value.rooms.map((r) => ({
-        roomTypeId: r.roomTypeId,
-        quantity: r.quantity,
-        unitPrice: r.unitPrice,
+    const token = localStorage.getItem("token");
+    let response;
+    if (token) {
+      console.log("偵測到 Token，走會員通道");
+      response = await api.post("/bookings/create/Member", {
         checkinDate: bookingData.value.checkInDate,
         checkoutDate: bookingData.value.checkOutDate,
-      })),
-    });
+        currency: "TWD",
+
+        userId: 0,
+
+        guestIdNumber: guestIdNumber.value,
+        guestName: Name.value,
+        guestEmail: Email.value,
+        guestPhone: Phone.value,
+
+        items: bookingData.value.rooms.map((r) => ({
+          roomTypeId: r.roomTypeId,
+          quantity: r.quantity,
+          unitPrice: r.unitPrice,
+          checkinDate: bookingData.value.checkInDate,
+          checkoutDate: bookingData.value.checkOutDate,
+        })),
+      });
+    } else {
+      console.log("無 Token");
+      response = await api.post("/bookings/create/Guest", {
+        checkinDate: bookingData.value.checkInDate,
+        checkoutDate: bookingData.value.checkOutDate,
+        currency: "TWD",
+
+        guestIdNumber: guestIdNumber.value,
+        guestName: Name.value,
+        guestEmail: Email.value,
+        guestPhone: Phone.value,
+
+        items: bookingData.value.rooms.map((r) => ({
+          roomTypeId: r.roomTypeId,
+          quantity: r.quantity,
+          unitPrice: r.unitPrice,
+          checkinDate: bookingData.value.checkInDate,
+          checkoutDate: bookingData.value.checkOutDate,
+        })),
+      });
+    }
 
     toast.add({
       severity: "success",

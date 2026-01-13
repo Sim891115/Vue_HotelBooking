@@ -8,7 +8,7 @@
     <div class="card">
       <div class="filters">
         <div class="field">
-          <label>關鍵字（飯店/房型/訂單號）</label>
+          <label>關鍵字（房型/訂單號）</label>
           <InputText v-model="keyword" placeholder="例如：Taichung / OD2025..." />
         </div>
 

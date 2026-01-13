@@ -34,12 +34,7 @@
           @click="memberVisible = true"
         />
 
-        <Button
-          v-else
-          label="登出"
-          severity="danger"
-          @click="logout"
-        />
+        <Button v-else label="登出" severity="danger" @click="logout" />
       </div>
     </div>
   </div>
@@ -96,7 +91,11 @@
     <div class="register-form">
       <div class="form-field">
         <label for="register-name">姓名</label>
-        <InputText id="register-name" v-model="name" placeholder="請輸入真實姓名" />
+        <InputText
+          id="register-name"
+          v-model="name"
+          placeholder="請輸入真實姓名"
+        />
       </div>
 
       <div class="form-field">
@@ -166,13 +165,19 @@ const memberData = ref(null);
 // 註冊
 async function register() {
   if (!email.value || !password.value || !name.value) {
-    toast.add({ severity: "error", summary: "錯誤", detail: "欄位請勿留白", life: 3000 });
+    toast.add({
+      severity: "error",
+      summary: "錯誤",
+      detail: "欄位請勿留白",
+      life: 3000,
+    });
     return;
   }
 
   try {
     const payload = {
       FullName: name.value,
+      LoginName: name.value,
       Email: email.value,
       Password: password.value,
     };
@@ -189,7 +194,12 @@ async function register() {
     });
   } catch (error) {
     const errMsg = error.response?.data || "註冊失敗，請稍後再試";
-    toast.add({ severity: "error", summary: "註冊失敗", detail: errMsg, life: 3000 });
+    toast.add({
+      severity: "error",
+      summary: "註冊失敗",
+      detail: errMsg,
+      life: 3000,
+    });
   }
 }
 
@@ -214,7 +224,12 @@ async function Login() {
     // 依你 swagger 的格式：resp.data.data.token / resp.data.data.userName ...
     const token = resp.data?.data?.token;
     if (!token) {
-      toast.add({ severity: "error", summary: "登入失敗", detail: "後端未回傳 token", life: 3000 });
+      toast.add({
+        severity: "error",
+        summary: "登入失敗",
+        detail: "後端未回傳 token",
+        life: 3000,
+      });
       return;
     }
 
@@ -223,11 +238,15 @@ async function Login() {
     // 立刻用 token 取 profile
     const profileResp = await api.get("/Users/profile");
     memberData.value = profileResp.data?.data || null;
-
     isLogin.value = true;
     memberVisible.value = false;
 
-    toast.add({ severity: "success", summary: "登入成功", detail: "歡迎回來", life: 3000 });
+    toast.add({
+      severity: "success",
+      summary: "登入成功",
+      detail: "歡迎回來",
+      life: 3000,
+    });
   } catch (error) {
     toast.add({
       severity: "error",
@@ -252,8 +271,7 @@ function logout() {
   });
 }
 
-// 重新整理後：若 localStorage 有 token，就自動抓 profile 把 navbar 狀態補回來
-onMounted(async () => {
+const fetchProfile = async () => {
   const token = localStorage.getItem("token");
   if (!token) return;
 
@@ -267,6 +285,11 @@ onMounted(async () => {
     memberData.value = null;
     isLogin.value = false;
   }
+};
+
+// 重新整理後：若 localStorage 有 token，就自動抓 profile 把 navbar 狀態補回來
+onMounted(() => {
+  fetchProfile();
 });
 </script>
 

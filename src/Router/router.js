@@ -10,34 +10,42 @@ import MemberCenter from "../components/MemberCenter.vue";
 const routes = [
   {
     path: "/",
+    name: "HomePage",
     component: HomePage,
   },
   {
     path: "/RoomIntro",
+    name: "RoomIntro",
     component: RoomIntro,
   },
   {
     path: "/OrderInquiry",
+    name: "OrderInquiry",
     component: OrderInquiry,
   },
   {
     path: "/Booking",
+    name: "Booking",
     component: Booking,
   },
   {
     path: "/HomePage",
+    name: "HomePage",
     component: HomePage,
   },
   {
     path: "/Roomfacility",
+    name: "Roomfacility",
     component: Roomfacility,
   },
   {
     path: "/Conteact",
+    name: "Conteact",
     component: Conteact,
   },
   {
     path: "/MemberCenter",
+    name: "MemberCenter",
     component: MemberCenter,
   },
 ];
@@ -45,6 +53,14 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+  scrollBehavior(to) {
+  if (to.hash) {
+    return {
+      el: to.hash,
+      behavior: 'smooth'
+    }
+  }
+}
 });
 
 export default router;

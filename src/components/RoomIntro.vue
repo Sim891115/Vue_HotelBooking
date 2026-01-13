@@ -18,82 +18,110 @@
     </div>
 
     <div class="room-list">
-      <!-- 標準房 -->
+      <!-- 單人房 -->
       <div class="room-card">
         <div class="room-photo">
           <span class="room-tag">人氣首選</span>
-          <img src="../assets/Deluxe.jpg" alt="標準房" />
+          <img src="../assets/Deluxe.jpg" alt="單人房" />
           <div class="room-overlay">
             <div class="overlay-left">
-              <strong>標準房</strong>
+              <strong>單人房</strong>
               每晚 NT$ 2,680 起
             </div>
-            <a class="overlay-btn" href="#">立即訂房</a>
+
+            <router-link
+              class="overlay-btn"
+              :to="{
+                name: 'HomePage',
+                hash: '#quick-search-title',
+                query: { roomType: 'single' },
+              }"
+            >
+              立即訂房
+            </router-link>
           </div>
         </div>
+
         <div class="room-info">
           <div class="room-title-row">
-            <h3>標準房</h3>
+            <h3>單人房</h3>
             <span class="room-price">NT$ 2,680 起</span>
+          </div>
+
+          <div class="room-meta">
+            <div class="meta-item">
+              <span class="k">入住人數</span><span class="v">1 人</span>
+            </div>
+
+            <div class="meta-item">
+              <span class="k">房間大小</span><span class="v">20–24 ㎡</span>
+            </div>
+
+            <div class="meta-item">
+              <span class="k">床型</span><span class="v">單人床 1 張</span>
+            </div>
+          </div>
+
+          <p>
+            <strong>房型特色：</strong>
+            房內空間精巧實用，動線規劃流暢，適合獨旅或商務住宿。配備舒適單人床、獨立書桌與高速
+            Wi-Fi，提供安靜放鬆的休息環境，讓您在旅途中也能保有良好作息品質。
+          </p>
+
+          <div class="room-actions">
+            <a href="#" class="primary">查看詳情</a>
+            <a href="#">加入收藏</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 雙人房 -->
+      <div class="room-card">
+        <div class="room-photo">
+          <span class="room-tag">親子推薦</span>
+          <img src="../assets/Deluxe Double.jpg" alt="雙人房" />
+          <div class="room-overlay">
+            <div class="overlay-left">
+              <strong>雙人房</strong>
+              每晚 NT$ 3,180 起
+            </div>
+
+            <router-link
+              class="overlay-btn"
+              :to="{
+                name: 'HomePage',
+                hash: '#quick-search-title',
+                query: { roomType: 'double' },
+              }"
+            >
+              立即訂房
+            </router-link>
+          </div>
+        </div>
+
+        <div class="room-info">
+          <div class="room-title-row">
+            <h3>雙人房</h3>
+            <span class="room-price">NT$ 3,180 起</span>
           </div>
 
           <div class="room-meta">
             <div class="meta-item">
               <span class="k">入住人數</span><span class="v">2 人</span>
             </div>
-            <div class="meta-item">
-              <span class="k">房間大小</span><span class="v">20–24 ㎡</span>
-            </div>
-            <div class="meta-item">
-              <span class="k">床型</span><span class="v">雙人床 1 張</span>
-            </div>
-          </div>
 
-          <p>
-            <strong>房型特色：</strong>採光良好、簡約時尚設計，提供免費
-            Wi-Fi、書桌與多國插座，適合商務旅客或短期住宿。
-          </p>
-
-          <div class="room-actions">
-            <a href="#" class="primary">查看詳情</a>
-            <a href="#">加入收藏</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- 雙床房 -->
-      <div class="room-card">
-        <div class="room-photo">
-          <span class="room-tag">雙人入住</span>
-          <img src="../assets/Deluxe Double.jpg" alt="雙床房" />
-          <div class="room-overlay">
-            <div class="overlay-left">
-              <strong>雙床房</strong>
-              每晚 NT$ 3,180 起
-            </div>
-            <a class="overlay-btn" href="#">立即訂房</a>
-          </div>
-        </div>
-        <div class="room-info">
-          <div class="room-title-row">
-            <h3>雙床房</h3>
-            <span class="room-price">NT$ 3,180 起</span>
-          </div>
-
-          <div class="room-meta">
-            <div class="meta-item">
-              <span class="k">入住人數</span><span class="v">2–3 人</span>
-            </div>
             <div class="meta-item">
               <span class="k">房間大小</span><span class="v">24–28 ㎡</span>
             </div>
+
             <div class="meta-item">
               <span class="k">床型</span><span class="v">單人床 2 張</span>
             </div>
           </div>
 
           <p>
-            <strong>房型特色：</strong>適合好友或同事同行，提供獨立睡眠空間，可加床服務並附設行李置放區。
+            <strong>房型特色：</strong>
+            以實用與舒適為核心設計，配置兩張獨立單人床，適合好友、同事或親子同行。空間寬敞不擁擠，行李擺放便利，兼顧隱私與共享的住宿需求。
           </p>
 
           <div class="room-actions">
@@ -103,39 +131,53 @@
         </div>
       </div>
 
-      <!-- 家庭套房 -->
+      <!-- 豪華雙人房 -->
       <div class="room-card">
         <div class="room-photo">
-          <span class="room-tag">親子推薦</span>
-          <img src="../assets/Family suite.jpg" alt="家庭套房" />
+          <span class="room-tag">高級推薦</span>
+          <img src="../assets/Family suite.jpg" alt="豪華雙人房" />
           <div class="room-overlay">
             <div class="overlay-left">
-              <strong>家庭套房</strong>
+              <strong>豪華雙人房</strong>
               每晚 NT$ 4,980 起
             </div>
-            <a class="overlay-btn" href="#">立即訂房</a>
+
+            <router-link
+              class="overlay-btn"
+              :to="{
+                name: 'HomePage',
+                hash: '#quick-search-title',
+                query: { roomType: 'deluxe-double-no-win' },
+              }"
+            >
+              立即訂房
+            </router-link>
           </div>
         </div>
+
         <div class="room-info">
           <div class="room-title-row">
-            <h3>家庭套房</h3>
+            <h3>豪華雙人房</h3>
             <span class="room-price">NT$ 4,980 起</span>
           </div>
 
           <div class="room-meta">
             <div class="meta-item">
-              <span class="k">入住人數</span><span class="v">4 人</span>
+              <span class="k">入住人數</span><span class="v">2-4 人</span>
             </div>
+
             <div class="meta-item">
               <span class="k">房間大小</span><span class="v">35–40 ㎡</span>
             </div>
+
             <div class="meta-item">
-              <span class="k">床型</span><span class="v">雙人床 2 張</span>
+              <span class="k">床型</span><span class="v">加大雙人床 2 張</span>
             </div>
           </div>
 
           <p>
-            <strong>房型特色：</strong>為親子家庭打造，提供寬敞空間、可加嬰兒床或護欄，部分房型附小客廳。
+            <strong>房型特色：</strong>
+            寬敞房型結合高質感設計，搭配舒適加大雙人床與柔和燈光，營造放鬆氛圍。適合情侶或家庭入住，提供充足活動空間，讓住宿體驗更加自在愜意。
           </p>
 
           <div class="room-actions">
@@ -155,7 +197,16 @@
               <strong>總統套房</strong>
               每晚 NT$ 12,800 起
             </div>
-            <a class="overlay-btn" href="#">立即訂房</a>
+            <router-link
+              class="overlay-btn"
+              :to="{
+                name: 'HomePage',
+                hash: '#quick-search-title',
+                query: { roomType: 'triple' },
+              }"
+            >
+              立即訂房
+            </router-link>
           </div>
         </div>
         <div class="room-info">
@@ -166,18 +217,22 @@
 
           <div class="room-meta">
             <div class="meta-item">
-              <span class="k">入住人數</span><span class="v">2–4 人</span>
+              <span class="k">入住人數</span><span class="v">4-8 人</span>
             </div>
+
             <div class="meta-item">
               <span class="k">房間大小</span><span class="v">80 ㎡ 以上</span>
             </div>
+
             <div class="meta-item">
-              <span class="k">床型</span><span class="v">特大床 1–2 張</span>
+              <span class="k">床型</span
+              ><span class="v">特大床 1–2 張 (可加床)</span>
             </div>
           </div>
 
           <p>
-            <strong>房型特色：</strong>配備獨立客廳、招待空間、大型浴室與城市景觀，提供專屬禮賓及客製化服務。
+            <strong>房型特色：</strong>
+            尊榮級套房設計，擁有獨立起居空間與寬闊視野，適合家庭聚會或重要行程入住。結合高級家具與細緻裝潢，提供極致舒適與隱私的住宿享受。
           </p>
 
           <div class="room-actions">
@@ -233,7 +288,9 @@
         <ul class="footer-links">
           <li><a href="tel:+886-4-1234-5678">電話：04-1234-5678</a></li>
           <li>
-            <a href="mailto:service@wuzunfo-hotel.example">信箱：service@wuzunfo-hotel.example</a>
+            <a href="mailto:service@wuzunfo-hotel.example"
+              >信箱：service@wuzunfo-hotel.example</a
+            >
           </li>
           <li><a href="#">地址：台中市（示意）</a></li>
           <li><a href="#">服務時間：24 小時</a></li>
@@ -253,7 +310,8 @@
 <style scoped>
 /* Hero */
 .hero {
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.08)),
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.08)),
     url("../assets/飯店大廳.jpg") center/cover no-repeat;
   color: #fff;
   padding: 56px 20px;
@@ -349,7 +407,9 @@
   overflow: hidden;
   background-color: #fff;
   box-shadow: var(--shadow);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .room-card:hover {
@@ -427,7 +487,9 @@
   padding: 10px 12px;
   border-radius: 12px;
   border: 1px solid rgba(199, 163, 106, 0.9);
-  transition: transform 0.15s ease, filter 0.2s ease;
+  transition:
+    transform 0.15s ease,
+    filter 0.2s ease;
   white-space: nowrap;
 }
 
@@ -521,7 +583,9 @@
   font-weight: 800;
   border: 1px solid var(--border);
   background: #fff;
-  transition: transform 0.15s ease, background 0.2s ease;
+  transition:
+    transform 0.15s ease,
+    background 0.2s ease;
   flex: 1;
 }
 

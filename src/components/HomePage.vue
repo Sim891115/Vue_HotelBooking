@@ -116,7 +116,7 @@
         <div class="card">
           <section id="quick-search" ref="quickSearchRef">
             <div style="display: flex; justify-content: space-between">
-              <h2>快速查詢空房</h2>
+              <h2 id="quick-search-title">快速查詢空房</h2>
               <Button
                 style="height: 30px; margin-top: 25px"
                 @click="notSearchRooms = !notSearchRooms"
@@ -144,7 +144,7 @@
               v-model="roomType"
               :options="rooms"
               optionLabel="room"
-              optionValue="count"
+              optionValue="code"
               placeholder="請選擇房型"
             />
 
@@ -157,7 +157,7 @@
               @click="SearchVacantRoom"
             />
 
-            <button class="btn-primary" @click="OrederRooms">訂房</button>
+            <button class="btn-primary" @click="OrederRooms">送出</button>
 
             <br /><br />
             <button class="btn-secondary" @click="clearForm">清除</button>
@@ -174,7 +174,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, watch, nextTick } from "vue";
 import Select from "primevue/select";
 import DatePicker from "primevue/datepicker";
 import { Button } from "primevue";
@@ -185,9 +185,37 @@ import img1 from "../assets/1-3.jpeg";
 import img2 from "../assets/210513113644708-L.jpg";
 import img3 from "../assets/210617142250126-XXL.jpg";
 import dayjs from "dayjs";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
+
 const products = ref([]);
 const router = useRouter();
+
+/* ===== 從【客房介紹】點擊【立即訂房】後直接跳轉到【快速查詢空房】 ===== */
+const route = useRoute();
+
+function applyRoomTypeFromQuery() {
+  const rt = route.query.roomType;
+  if (!rt) return;
+
+  roomType.value = String(rt); // 直接塞代碼，例如 'single'
+
+  // 讓 Select 更新完後再做滾動（更穩）
+  nextTick(() => {
+    const el = document.querySelector("#quick-search");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  });
+}
+
+onMounted(() => {
+  applyRoomTypeFromQuery();
+});
+
+// 如果你從 RoomIntro 點不同房型回到同一個 HomePage，靠 watch 才會更新
+watch(
+  () => route.query.roomType,
+  () => applyRoomTypeFromQuery()
+);
+
 /* ===== 輪播 ===== */
 const images = [img1, img2, img3];
 const currentSlide = ref(0);
@@ -212,15 +240,24 @@ onMounted(() => {
 
 onUnmounted(() => clearInterval(timer));
 
+/* ===== 客房介紹 點擊 立即訂房 ===== */
+// 你的房型 v-model（名稱依你原本的變數調整）
+const selectedRoomType = ref("");
+
+onMounted(() => {
+  const rt = route.query.roomType;
+  if (rt) selectedRoomType.value = String(rt);
+});
+
 /* ===== 公告 ===== */
 const announcements = ref([]);
 
 /* ===== 房型 ===== */
 const rooms = ref([
-  { room: "單人房", count: "single" },
-  { room: "雙人房", count: "double" },
-  { room: "豪華雙人房", count: "deluxe-double-no-win" },
-  { room: "三人房", count: "triple" },
+  { room: "單人房", code: "single" },
+  { room: "雙人房", code: "double" },
+  { room: "豪華雙人房", code: "deluxe-double-no-win" },
+  { room: "總統套房", code: "triple" },
 ]);
 
 /* ===== 查詢 ===== */
@@ -488,7 +525,10 @@ footer {
   /* 圓角 */
   transition: all 1s ease;
 
-  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
     1px 1px 0 #000;
 }
 
