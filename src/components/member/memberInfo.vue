@@ -62,6 +62,10 @@
           <label>手機</label>
           <InputText v-model="form.phone" placeholder="09xx-xxx-xxx" />
         </div>
+        <div class="field">
+          <label>密碼</label>
+          <InputText v-model="form.password" placeholder="請輸入密碼" />
+        </div>
 
         <div class="field full">
           <label>地址</label>
@@ -106,6 +110,7 @@ const original = reactive({
   email: "",
   phone: "",
   address: "",
+  password:""
 });
 
 const form = reactive({ ...original });
@@ -212,12 +217,12 @@ async function save() {
 
   saving.value = true;
   try {
-    // 後端若尚未實作此 API
     const payload = {
       userName: form.name,     
       email: form.email,
       phone: form.phone,
       addressLine: form.address,
+      passwordHash: form.password
     };
 
     // ⚠️ 後端需要提供這支

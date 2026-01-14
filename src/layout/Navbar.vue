@@ -21,18 +21,13 @@
       </div>
 
       <div class="nav-cta">
-        <button class="btn" type="button" onclick="w3_open()">☰ 選單</button>
+        <!-- <button class="btn" type="button" onclick="w3_open()">☰ 選單</button> -->  
 
         <span v-if="isLogin && memberData" class="member">
           你好，{{ memberData.userName }}
         </span>
 
-        <Button
-          v-if="!isLogin"
-          label="登入"
-          severity="contrast"
-          @click="memberVisible = true"
-        />
+        <Button v-if="!isLogin" label="登入" severity="contrast" @click="memberVisible = true" />
 
         <Button v-else label="登出" severity="danger" @click="logout" />
       </div>
@@ -40,12 +35,7 @@
   </div>
 
   <!-- 登入視窗 -->
-  <Dialog
-    v-model:visible="memberVisible"
-    header="會員登入"
-    :style="{ width: '25rem' }"
-    appendTo="body"
-  >
+  <Dialog v-model:visible="memberVisible" header="會員登入" :style="{ width: '25rem' }" appendTo="body">
     <span class="dialog-hint">請輸入您的帳號密碼:</span>
 
     <div class="LogOrPsw">
@@ -56,87 +46,44 @@
 
       <div class="fieldRow">
         <label for="password">密碼:</label>
-        <InputText
-          id="password"
-          v-model="password"
-          type="password"
-          autocomplete="off"
-          style="margin-top: 15px"
-        />
+        <InputText id="password" v-model="password" type="password" autocomplete="off" style="margin-top: 15px" />
       </div>
     </div>
 
     <div class="LogOrRes">
       <Button type="button" label="登入" @click="Login" />
-      <Button
-        style="margin-left: 12px"
-        type="button"
-        label="註冊"
-        severity="secondary"
-        @click="
-          memberVisible = false;
-          registerVisible = true;
-        "
-      />
+      <Button style="margin-left: 12px" type="button" label="註冊" severity="secondary" @click="
+        memberVisible = false;
+      registerVisible = true;
+      " />
     </div>
   </Dialog>
 
   <!-- 註冊視窗 -->
-  <Dialog
-    v-model:visible="registerVisible"
-    header="會員註冊"
-    :style="{ width: '30rem' }"
-    appendTo="body"
-  >
+  <Dialog v-model:visible="registerVisible" header="會員註冊" :style="{ width: '30rem' }" appendTo="body">
     <div class="register-form">
       <div class="form-field">
         <label for="register-name">姓名</label>
-        <InputText
-          id="register-name"
-          v-model="name"
-          placeholder="請輸入真實姓名"
-        />
+        <InputText id="register-name" v-model="name" placeholder="請輸入真實姓名" />
       </div>
 
       <div class="form-field">
         <label for="register-email">電子信箱</label>
-        <InputText
-          id="register-email"
-          v-model="email"
-          type="email"
-          placeholder="example@email.com"
-        />
+        <InputText id="register-email" v-model="email" type="email" placeholder="example@email.com" />
       </div>
 
       <div class="form-field">
         <label for="register-password">密碼</label>
-        <InputText
-          id="register-password"
-          v-model="password"
-          type="password"
-          placeholder="請設定密碼"
-        />
+        <InputText id="register-password" v-model="password" type="password" placeholder="請設定密碼" />
       </div>
     </div>
 
     <div class="register-footer">
-      <Button
-        type="button"
-        label="返回登入"
-        icon="pi pi-arrow-left"
-        severity="secondary"
-        text
-        @click="
-          registerVisible = false;
-          memberVisible = true;
-        "
-      />
-      <Button
-        type="button"
-        label="確認註冊"
-        icon="pi pi-check"
-        @click="register"
-      />
+      <Button type="button" label="返回登入" icon="pi pi-arrow-left" severity="secondary" text @click="
+        registerVisible = false;
+      memberVisible = true;
+      " />
+      <Button type="button" label="確認註冊" icon="pi pi-check" @click="register" />
     </div>
   </Dialog>
 </template>
@@ -149,9 +96,10 @@ import InputText from "primevue/inputtext";
 import Toast from "primevue/toast";
 import { useToast } from "primevue/usetoast";
 import api from "../api/api";
+import { useRouter } from "vue-router";
 
 const toast = useToast();
-
+const router = useRouter();
 const memberVisible = ref(false);
 const registerVisible = ref(false);
 
@@ -235,6 +183,8 @@ async function Login() {
 
     localStorage.setItem("token", token);
 
+    router.replace({ path: "/HomePage" }); // 登入後導回首頁
+
     // 立刻用 token 取 profile
     const profileResp = await api.get("/Users/profile");
     memberData.value = profileResp.data?.data || null;
@@ -262,13 +212,14 @@ function logout() {
   localStorage.removeItem("token");
   memberData.value = null;
   isLogin.value = false;
-
+  router.replace({ path: "/HomePage" });
   toast.add({
     severity: "info",
     summary: "已登出",
     detail: "期待您再次光臨",
     life: 3000,
   });
+  router.replace({ path: "/HomePage" }); // 登出後導回首頁
 }
 
 const fetchProfile = async () => {

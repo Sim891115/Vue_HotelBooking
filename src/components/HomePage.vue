@@ -164,6 +164,11 @@
           </section>
         </div>
       </div>
+
+      <footer>
+        <div>© {{ year }} 五尊佛飯店。版權所有。</div>
+        <div class="service">客服 (02) 1234-5678</div>
+      </footer>
     </section>
   </div>
 
