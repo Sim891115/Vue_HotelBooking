@@ -10,7 +10,7 @@ import MemberCenter from "../components/MemberCenter.vue";
 const routes = [
   {
     path: "/",
-    name: "HomePage",
+    redirect: "HomePage",
     component: HomePage,
   },
   {
@@ -54,13 +54,13 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
   scrollBehavior(to) {
-  if (to.hash) {
-    return {
-      el: to.hash,
-      behavior: 'smooth'
+    if (to.hash) {
+      return {
+        el: to.hash,
+        behavior: "smooth",
+      };
     }
-  }
-}
+  },
 });
 
 export default router;
