@@ -114,15 +114,18 @@
 
         <!-- 快速查詢 -->
         <div class="card">
-          <section id="quick-search" ref="quickSearchRef">
-            <div style="display: flex; justify-content: space-between">
+          <section ref="quickSearchRef">
+            <div
+              id="quick-search"
+              style="display: flex; justify-content: space-between"
+            >
               <h2 id="quick-search-title">快速查詢空房</h2>
-              <Button
+              <!-- <Button
                 style="height: 30px; margin-top: 25px"
                 @click="notSearchRooms = !notSearchRooms"
               >
                 顯示空房資訊
-              </Button>
+              </Button> -->
             </div>
 
             <label>入住日期</label>
@@ -134,9 +137,9 @@
             <DatePicker v-model="checkOut" dateFormat="yy/mm/dd" fluid />
             <br />
 
-            <div style="gap: 20px">
+            <!-- <div style="gap: 20px">
               <label>房型:</label>
-            </div>
+            </div> -->
 
             <br />
             <Select
@@ -149,26 +152,50 @@
             />
 
             <p class="err">{{ errorMsg }}</p>
+
+            <button
+              class="btn-send"
+              v-if="!notSearchRooms"
+              style="width: 100%; margin-bottom: 15px"
+              severity="info"
+              @click="SearchVacantRoom"
+            >
+              查詢空房
+            </button>
+
+            <button
+              class="btn-send"
+              v-if="!notSearchRooms"
+              style="width: 100%; margin-bottom: 15px"
+              severity="info"
+              @click="OrederRooms"
+            >
+              立即訂購
+            </button>
+
             <Button
               v-if="!notSearchRooms"
               style="width: 100%; margin-bottom: 15px"
-              label="搜尋房間"
+              label="返回"
               severity="info"
-              @click="SearchVacantRoom"
+              @click="notSearchRooms = !notSearchRooms"
             />
 
-            <button class="btn-primary" @click="OrederRooms">送出</button>
-
             <br /><br />
+
+            <button
+              class="btn-send"
+              v-if="notSearchRooms"
+              severity="info"
+              @click="notSearchRooms = !notSearchRooms"
+            >
+              確定
+            </button>
+
             <button class="btn-secondary" @click="clearForm">清除</button>
           </section>
         </div>
       </div>
-
-      <footer>
-        <div>© {{ year }} 五尊佛飯店。版權所有。</div>
-        <div class="service">客服 (02) 1234-5678</div>
-      </footer>
     </section>
   </div>
 
@@ -318,9 +345,15 @@ const remarks = ref([]);
 const cartRooms = ref([]);
 const notSearchRooms = ref(true);
 errorMsg.value = "";
-/* ===== 建立訂單 ===== */
 
+/* ===== 查詢空房 ===== */
 async function SearchVacantRoom() {
+  // 🔴 先做前端驗證
+  if (!roomType.value || !checkIn.value || !checkOut.value) {
+    alert("請確認房型、數量、入住日期與退房日期");
+    return; // ❗中斷，不呼叫 API
+  }
+
   try {
     const response = await api.get("/GetRoomsAll/fullSearch", {
       params: {
@@ -338,9 +371,10 @@ async function SearchVacantRoom() {
     bedInfo.value = res.bedInfo ?? [];
     remarks.value = res.remarks ?? [];
 
-    notSearchRooms.value = false;
+    // notSearchRooms.value = false;
   } catch (error) {
     console.log(error);
+    alert("查詢空房失敗，請稍後再試");
   }
 }
 
@@ -353,6 +387,7 @@ async function Announcements() {
   }
 }
 
+/* ===== 建立訂單 ===== */
 function OrederRooms() {
   // const selected = products.value.find((p) => p.selectedQty > 0); 撈單筆資料
 
@@ -536,13 +571,16 @@ button {
   border: none;
 }
 
-.btn-primary {
+.btn-send {
+  font-size: 15px;
   background: #4f46e5;
   color: white;
   width: 100%;
+  margin-bottom: 15px;
 }
 
 .btn-secondary {
+  font-size: 15px;
   background: #e5e7eb;
   width: 100%;
 }
@@ -679,5 +717,10 @@ footer.site-footer {
   background: linear-gradient(to top, #5f5e5953, #dedede5c);
   /* color: black; */
   border-bottom: 2px solid white;
+}
+
+.error-msg {
+  color: red;
+  margin-top: 8px;
 }
 </style>
