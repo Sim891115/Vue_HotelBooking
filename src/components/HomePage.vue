@@ -718,9 +718,4 @@ footer.site-footer {
   /* color: black; */
   border-bottom: 2px solid white;
 }
-
-.error-msg {
-  color: red;
-  margin-top: 8px;
-}
 </style>
