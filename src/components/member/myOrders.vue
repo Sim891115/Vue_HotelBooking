@@ -40,8 +40,20 @@
                 label="查看"
                 icon="pi pi-eye"
                 severity="secondary"
-                @click="view(o)"
+                @click="dialogVisible = true;"
               />
+              <Dialog v-model:visible="dialogVisible" :header="`訂單詳情`" :modal="true" :closable="true" :style="{ width: '600px' }">
+                <div class="dialog-content">
+                  <p>訂單編號：{{ o.bookingNumber }}</p>
+                  <p>房型：{{ o.roomType }}</p>
+                  <p>入住日期：{{ o.checkInDate }}</p>
+                  <p>退房日期：{{ o.checkOutDate }}</p>
+                  <p>幣別:{{o.currency}}</p>
+                  <p>入住晚數{{ o.nights }}X 間數{{ o.quantity }}=
+                    總金額：NT$ {{ o.totalAmount?.toLocaleString() ?? "-" }}</p>
+                  <p>備註:{{ o.remarks }}</p>
+                </div>
+              </Dialog>
               <Button
                 v-if="o.status === '待付款'"
                 label="去付款"
@@ -62,6 +74,8 @@
 import { computed, ref, onMounted } from "vue";
 import Button from "primevue/button";
 import api from "../../api/api";
+import Dialog from "primevue/dialog";
+import InputText from "primevue/inputtext";
 
 const status = ref("all");
 const message = ref("");
@@ -74,33 +88,7 @@ const tabs = [
 ];
 
 const orders = ref([
-  // {
-  //   orderNo: "OD20260104021",
-  //   hotel: "範例飯店 Taichung",
-  //   roomType: "雙人房",
-  //   checkIn: "2026-01-08",
-  //   checkOut: "2026-01-09",
-  //   status: "待付款",
-  //   total: 3400,
-  // },
-  // {
-  //   orderNo: "OD20251225002",
-  //   hotel: "範例飯店 Taipei",
-  //   roomType: "家庭房",
-  //   checkIn: "2026-02-01",
-  //   checkOut: "2026-02-03",
-  //   status: "已確認",
-  //   total: 12600,
-  // },
-  // {
-  //   orderNo: "OD20251111009",
-  //   hotel: "範例飯店 Kaohsiung",
-  //   roomType: "單人房",
-  //   checkIn: "2025-11-20",
-  //   checkOut: "2025-11-21",
-  //   status: "取消/退款",
-  //   total: 1800,
-  // },
+ 
 ]);
 
 // 進入此網頁後，馬上掛載
@@ -110,7 +98,7 @@ onMounted(() => {
 
 async function myOrders() {
   try {
-    const response = await api.get("/MemberBookingSearch/search");
+    const response = await api.get("/MemberBookingSearch/searchAll");
     orders.value = response.data;
   } catch (error) {
     console.log(error);
@@ -122,6 +110,7 @@ const filtered = computed(() => {
   return orders.value.filter((x) => x.status === status.value);
 });
 
+const dialogVisible = ref(false);
 function view(o) {
   message.value = `查看訂單：${o.bookingNumber}（範例訊息）`;
 }

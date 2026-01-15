@@ -158,7 +158,7 @@ async function searchOrder() {
 
   try {
     const params = { Email: email.value, bookingNumber: bookingNumber.value };
-    const response = await api.get("/bookings/query/member", {
+    const response = await api.get("/bookings/search", {
       params: params,
     });
     result.value = response.data.data;
@@ -170,6 +170,7 @@ async function searchOrder() {
       life: 3000,
     });
   } catch (error) {
+    console.log(error);
     toast.add({
       severity: "error",
       summary: "查詢失敗",
