@@ -25,7 +25,7 @@
     </section>
 
     <!-- 🔹 內容區（限制寬度） -->
-    <section class="container">
+    <section class="container" id="container">
       <div class="grid grid-3">
         <!-- 公告 -->
         <div class="card" v-if="notSearchRooms">
@@ -42,7 +42,7 @@
           </ul>
         </div>
 
-        <!-- 顯示空房資訊 -->
+        <!-- 顯示空房資訊(顯示空房資訊) -->
         <div v-else>
           <div class="card">
             <DataTable
@@ -113,7 +113,7 @@
         </div>
 
         <!-- 快速查詢 -->
-        <div class="card">
+        <div class="card" id="roomInfo">
           <section ref="quickSearchRef">
             <div
               id="quick-search"
@@ -263,19 +263,23 @@ import { useRouter, useRoute } from "vue-router";
 const products = ref([]);
 const router = useRouter();
 
-/* ===== 從【客房介紹】點擊【立即訂房】後直接跳轉到【快速查詢空房】 ===== */
 const route = useRoute();
 
+/* ===== 從【客房介紹】點擊【立即訂房】後直接跳轉到【快速查詢空房(原本的顯示空房資訊頁面)】 ===== */
 function applyRoomTypeFromQuery() {
   const rt = route.query.roomType;
   if (!rt) return;
 
+  // 1) 先把房型帶入右側下拉選單
   roomType.value = String(rt); // 直接塞代碼，例如 'single'
+
+  // 2) 直接切到「顯示空房資訊」那個畫面（左側 DataTable）
+  notSearchRooms.value = false;
 
   // 讓 Select 更新完後再做滾動（更穩）
   nextTick(() => {
-    const el = document.querySelector("#quick-search");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    const el = document.querySelector("#quick-search-title");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 }
 
@@ -296,12 +300,21 @@ let timer = null;
 
 const quickSearchRef = ref(null);
 
+// function scrollToQuickSearch() {
+//   // 平滑滾動到「快速查詢空房」
+//   quickSearchRef.value?.scrollIntoView({
+//     behavior: "smooth",
+//     block: "start",
+//   });
+// }
+
 function scrollToQuickSearch() {
-  // 平滑滾動到「快速查詢空房」
-  quickSearchRef.value?.scrollIntoView({
-    behavior: "smooth",
-    block: "start",
-  });
+  const el = document.getElementById("quick-search-title");
+  if (!el) return;
+
+  const y = el.getBoundingClientRect().top + window.pageYOffset - 150; // header 高度
+
+  window.scrollTo({ top: y, behavior: "smooth" });
 }
 
 onMounted(() => {
@@ -401,8 +414,8 @@ function OrederRooms() {
       unitPrice: p.basePrice,
     }));
 
-  if (!selected || !roomType.value) {
-    alert("請選擇房型與數量");
+  if (!selected.value || !roomType.value) {
+    alert("房型或數量不可為空");
     return;
   }
 
@@ -717,5 +730,9 @@ footer.site-footer {
   background: linear-gradient(to top, #5f5e5953, #dedede5c);
   /* color: black; */
   border-bottom: 2px solid white;
+}
+
+#quick-search-title {
+  scroll-margin-top: 90px;
 }
 </style>

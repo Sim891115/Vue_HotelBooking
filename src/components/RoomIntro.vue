@@ -33,7 +33,7 @@
               class="overlay-btn"
               :to="{
                 name: 'HomePage',
-                hash: '#quick-search-title',
+                hash: '#roomInfo',
                 query: { roomType: 'single' },
               }"
             >
@@ -69,13 +69,22 @@
           </p>
 
           <div class="room-actions">
-            <Button label="查看詳情" class="InfoButton" @click="infoVisible = true" />
+            <Button
+              label="查看詳情"
+              class="InfoButton"
+              @click="infoVisible = true"
+            />
           </div>
-
         </div>
       </div>
-      <Dialog v-model:visible="infoVisible" header="房型介紹｜豪華雙人房" :style="{ width: '92vw', maxWidth: '1100px' }"
-        :contentStyle="{ maxHeight: '75vh', overflow: 'auto' }" appendTo="body" modal>
+      <Dialog
+        v-model:visible="infoVisible"
+        header="房型介紹｜豪華雙人房"
+        :style="{ width: '92vw', maxWidth: '1100px' }"
+        :contentStyle="{ maxHeight: '75vh', overflow: 'auto' }"
+        appendTo="body"
+        modal
+      >
         <div class="roomDialog">
           <p class="dialog-hint">
             舒適寬敞的設計，適合商務與度假旅客。以下為房型規格與設備資訊。
@@ -85,10 +94,20 @@
           <div class="section">
             <h3 class="section-title">房型摘要</h3>
             <div class="grid">
-              <div class="item"><span class="k">房間大小</span><span class="v">35–40 ㎡</span></div>
-              <div class="item"><span class="k">床型</span><span class="v">雙人床 2 張</span></div>
-              <div class="item"><span class="k">入住人數</span><span class="v">最多 4 位（加人/加床依規定）</span></div>
-              <div class="item"><span class="k">景觀</span><span class="v">市景／中庭景（依房況安排）</span></div>
+              <div class="item">
+                <span class="k">房間大小</span><span class="v">35–40 ㎡</span>
+              </div>
+              <div class="item">
+                <span class="k">床型</span><span class="v">雙人床 2 張</span>
+              </div>
+              <div class="item">
+                <span class="k">入住人數</span
+                ><span class="v">最多 4 位（加人/加床依規定）</span>
+              </div>
+              <div class="item">
+                <span class="k">景觀</span
+                ><span class="v">市景／中庭景（依房況安排）</span>
+              </div>
             </div>
           </div>
 
@@ -109,10 +128,20 @@
           <div class="section">
             <h3 class="section-title">浴室設施</h3>
             <div class="grid">
-              <div class="item"><span class="k">乾濕分離</span><span class="v">有</span></div>
-              <div class="item"><span class="k">浴缸</span><span class="v">有（部分房型）</span></div>
-              <div class="item"><span class="k">淋浴</span><span class="v">花灑淋浴／手持蓮蓬頭</span></div>
-              <div class="item"><span class="k">備品</span><span class="v">洗髮、沐浴、潤髮、洗手乳（依飯店政策）</span></div>
+              <div class="item">
+                <span class="k">乾濕分離</span><span class="v">有</span>
+              </div>
+              <div class="item">
+                <span class="k">浴缸</span><span class="v">有（部分房型）</span>
+              </div>
+              <div class="item">
+                <span class="k">淋浴</span
+                ><span class="v">花灑淋浴／手持蓮蓬頭</span>
+              </div>
+              <div class="item">
+                <span class="k">備品</span
+                ><span class="v">洗髮、沐浴、潤髮、洗手乳（依飯店政策）</span>
+              </div>
             </div>
 
             <p class="note">
@@ -124,16 +153,32 @@
           <div class="section">
             <h3 class="section-title">入住資訊</h3>
             <div class="grid">
-              <div class="item"><span class="k">入住 / 退房</span><span class="v">15:00 / 11:00</span></div>
-              <div class="item"><span class="k">禁菸</span><span class="v">全館禁菸（違規將收取清潔費）</span></div>
-              <div class="item"><span class="k">寵物</span><span class="v">依飯店政策（請先洽詢）</span></div>
-              <div class="item"><span class="k">加人加床</span><span class="v">依房型與方案（需預先確認）</span></div>
+              <div class="item">
+                <span class="k">入住 / 退房</span
+                ><span class="v">15:00 / 11:00</span>
+              </div>
+              <div class="item">
+                <span class="k">禁菸</span
+                ><span class="v">全館禁菸（違規將收取清潔費）</span>
+              </div>
+              <div class="item">
+                <span class="k">寵物</span
+                ><span class="v">依飯店政策（請先洽詢）</span>
+              </div>
+              <div class="item">
+                <span class="k">加人加床</span
+                ><span class="v">依房型與方案（需預先確認）</span>
+              </div>
             </div>
           </div>
 
           <!-- 底部按鈕（可選） -->
           <div class="actions">
-            <Button class="InfoButton" label="我了解了" @click="infoVisible = false" />
+            <Button
+              class="InfoButton"
+              label="我了解了"
+              @click="infoVisible = false"
+            />
           </div>
         </div>
       </Dialog>
@@ -153,7 +198,7 @@
               class="overlay-btn"
               :to="{
                 name: 'HomePage',
-                hash: '#quick-search-title',
+                hash: '#roomInfo',
                 query: { roomType: 'double' },
               }"
             >
@@ -188,20 +233,44 @@
           </p>
 
           <div class="room-actions">
-            <Button label="查看詳情" class="InfoButton" @click="twinVisible = true" />
+            <Button
+              label="查看詳情"
+              class="InfoButton"
+              @click="twinVisible = true"
+            />
           </div>
-          <Dialog v-model:visible="twinVisible" header="房型介紹｜雙人房" :style="{ width: '92vw', maxWidth: '1100px' }"
-            :contentStyle="{ maxHeight: '75vh', overflow: 'auto' }" appendTo="body" modal>
+          <Dialog
+            v-model:visible="twinVisible"
+            header="房型介紹｜雙人房"
+            :style="{ width: '92vw', maxWidth: '1100px' }"
+            :contentStyle="{ maxHeight: '75vh', overflow: 'auto' }"
+            appendTo="body"
+            modal
+          >
             <div class="roomDialog">
-              <p class="dialog-hint">適合朋友同行或商務差旅，雙床配置讓休息空間更自在。</p>
+              <p class="dialog-hint">
+                適合朋友同行或商務差旅，雙床配置讓休息空間更自在。
+              </p>
 
               <div class="section">
                 <h3 class="section-title">房型摘要</h3>
                 <div class="grid">
-                  <div class="item"><span class="k">房間大小</span><span class="v">24–28 ㎡</span></div>
-                  <div class="item"><span class="k">床型</span><span class="v">單人床 2 張</span></div>
-                  <div class="item"><span class="k">入住人數</span><span class="v">最多 2–3 位（依加床規定）</span></div>
-                  <div class="item"><span class="k">景觀</span><span class="v">市景／中庭景（依房況安排）</span></div>
+                  <div class="item">
+                    <span class="k">房間大小</span
+                    ><span class="v">24–28 ㎡</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">床型</span
+                    ><span class="v">單人床 2 張</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">入住人數</span
+                    ><span class="v">最多 2–3 位（依加床規定）</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">景觀</span
+                    ><span class="v">市景／中庭景（依房況安排）</span>
+                  </div>
                 </div>
               </div>
 
@@ -219,25 +288,51 @@
               <div class="section">
                 <h3 class="section-title">浴室設施</h3>
                 <div class="grid">
-                  <div class="item"><span class="k">乾濕分離</span><span class="v">有</span></div>
-                  <div class="item"><span class="k">浴缸</span><span class="v">無</span></div>
-                  <div class="item"><span class="k">淋浴</span><span class="v">花灑淋浴／手持蓮蓬頭</span></div>
-                  <div class="item"><span class="k">備品</span><span class="v">洗髮、沐浴、洗手（依政策）</span></div>
+                  <div class="item">
+                    <span class="k">乾濕分離</span><span class="v">有</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">浴缸</span><span class="v">無</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">淋浴</span
+                    ><span class="v">花灑淋浴／手持蓮蓬頭</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">備品</span
+                    ><span class="v">洗髮、沐浴、洗手（依政策）</span>
+                  </div>
                 </div>
               </div>
 
               <div class="section">
                 <h3 class="section-title">入住資訊</h3>
                 <div class="grid">
-                  <div class="item"><span class="k">入住 / 退房</span><span class="v">15:00 / 11:00</span></div>
-                  <div class="item"><span class="k">禁菸</span><span class="v">全館禁菸（違規將收取清潔費）</span></div>
-                  <div class="item"><span class="k">加人加床</span><span class="v">可（需預先確認）</span></div>
-                  <div class="item"><span class="k">備註</span><span class="v">可優先安排相鄰房（依房況）</span></div>
+                  <div class="item">
+                    <span class="k">入住 / 退房</span
+                    ><span class="v">15:00 / 11:00</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">禁菸</span
+                    ><span class="v">全館禁菸（違規將收取清潔費）</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">加人加床</span
+                    ><span class="v">可（需預先確認）</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">備註</span
+                    ><span class="v">可優先安排相鄰房（依房況）</span>
+                  </div>
                 </div>
               </div>
 
               <div class="actions">
-                <Button class="InfoButton" label="我了解了" @click="twinVisible = false" />
+                <Button
+                  class="InfoButton"
+                  label="我了解了"
+                  @click="twinVisible = false"
+                />
               </div>
             </div>
           </Dialog>
@@ -259,7 +354,7 @@
               class="overlay-btn"
               :to="{
                 name: 'HomePage',
-                hash: '#quick-search-title',
+                hash: '#roomInfo',
                 query: { roomType: 'deluxe-double-no-win' },
               }"
             >
@@ -294,20 +389,44 @@
           </p>
 
           <div class="room-actions">
-            <Button label="查看詳情" class="InfoButton" @click="deluxeVisible = true" />
+            <Button
+              label="查看詳情"
+              class="InfoButton"
+              @click="deluxeVisible = true"
+            />
           </div>
-          <Dialog v-model:visible="deluxeVisible" header="房型介紹｜豪華雙人房" :style="{ width: '92vw', maxWidth: '1100px' }"
-            :contentStyle="{ maxHeight: '75vh', overflow: 'auto' }" appendTo="body" modal>
+          <Dialog
+            v-model:visible="deluxeVisible"
+            header="房型介紹｜豪華雙人房"
+            :style="{ width: '92vw', maxWidth: '1100px' }"
+            :contentStyle="{ maxHeight: '75vh', overflow: 'auto' }"
+            appendTo="body"
+            modal
+          >
             <div class="roomDialog">
-              <p class="dialog-hint">寬敞舒適的格局，適合家庭入住，提供更完整的休憩與收納空間。</p>
+              <p class="dialog-hint">
+                寬敞舒適的格局，適合家庭入住，提供更完整的休憩與收納空間。
+              </p>
 
               <div class="section">
                 <h3 class="section-title">房型摘要</h3>
                 <div class="grid">
-                  <div class="item"><span class="k">房間大小</span><span class="v">35–40 ㎡</span></div>
-                  <div class="item"><span class="k">床型</span><span class="v">雙人床 2 張</span></div>
-                  <div class="item"><span class="k">入住人數</span><span class="v">最多 4 位（加人/加床依規定）</span></div>
-                  <div class="item"><span class="k">景觀</span><span class="v">市景／中庭景（依房況安排）</span></div>
+                  <div class="item">
+                    <span class="k">房間大小</span
+                    ><span class="v">35–40 ㎡</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">床型</span
+                    ><span class="v">雙人床 2 張</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">入住人數</span
+                    ><span class="v">最多 4 位（加人/加床依規定）</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">景觀</span
+                    ><span class="v">市景／中庭景（依房況安排）</span>
+                  </div>
                 </div>
               </div>
 
@@ -325,25 +444,52 @@
               <div class="section">
                 <h3 class="section-title">浴室設施</h3>
                 <div class="grid">
-                  <div class="item"><span class="k">乾濕分離</span><span class="v">有</span></div>
-                  <div class="item"><span class="k">浴缸</span><span class="v">有（部分房型）</span></div>
-                  <div class="item"><span class="k">淋浴</span><span class="v">花灑淋浴／手持蓮蓬頭</span></div>
-                  <div class="item"><span class="k">備品</span><span class="v">洗髮、沐浴、潤髮、洗手乳（依政策）</span></div>
+                  <div class="item">
+                    <span class="k">乾濕分離</span><span class="v">有</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">浴缸</span
+                    ><span class="v">有（部分房型）</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">淋浴</span
+                    ><span class="v">花灑淋浴／手持蓮蓬頭</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">備品</span
+                    ><span class="v">洗髮、沐浴、潤髮、洗手乳（依政策）</span>
+                  </div>
                 </div>
               </div>
 
               <div class="section">
                 <h3 class="section-title">入住資訊</h3>
                 <div class="grid">
-                  <div class="item"><span class="k">入住 / 退房</span><span class="v">15:00 / 11:00</span></div>
-                  <div class="item"><span class="k">禁菸</span><span class="v">全館禁菸（違規將收取清潔費）</span></div>
-                  <div class="item"><span class="k">加人加床</span><span class="v">依房型與方案（需預先確認）</span></div>
-                  <div class="item"><span class="k">備註</span><span class="v">親子入住可提供嬰兒備品（依政策）</span></div>
+                  <div class="item">
+                    <span class="k">入住 / 退房</span
+                    ><span class="v">15:00 / 11:00</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">禁菸</span
+                    ><span class="v">全館禁菸（違規將收取清潔費）</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">加人加床</span
+                    ><span class="v">依房型與方案（需預先確認）</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">備註</span
+                    ><span class="v">親子入住可提供嬰兒備品（依政策）</span>
+                  </div>
                 </div>
               </div>
 
               <div class="actions">
-                <Button class="InfoButton" label="我了解了" @click="deluxeVisible = false" />
+                <Button
+                  class="InfoButton"
+                  label="我了解了"
+                  @click="deluxeVisible = false"
+                />
               </div>
             </div>
           </Dialog>
@@ -364,7 +510,7 @@
               class="overlay-btn"
               :to="{
                 name: 'HomePage',
-                hash: '#quick-search-title',
+                hash: '#roomInfo',
                 query: { roomType: 'triple' },
               }"
             >
@@ -399,20 +545,44 @@
           </p>
 
           <div class="room-actions">
-            <Button label="查看詳情" class="InfoButton" @click="presidentVisible = true" />
+            <Button
+              label="查看詳情"
+              class="InfoButton"
+              @click="presidentVisible = true"
+            />
           </div>
-          <Dialog v-model:visible="presidentVisible" header="房型介紹｜總統套房" :style="{ width: '92vw', maxWidth: '1100px' }"
-            :contentStyle="{ maxHeight: '75vh', overflow: 'auto' }" appendTo="body" modal>
+          <Dialog
+            v-model:visible="presidentVisible"
+            header="房型介紹｜總統套房"
+            :style="{ width: '92vw', maxWidth: '1100px' }"
+            :contentStyle="{ maxHeight: '75vh', overflow: 'auto' }"
+            appendTo="body"
+            modal
+          >
             <div class="roomDialog">
-              <p class="dialog-hint">尊榮頂級配置，適合招待貴賓或重要行程，提供更高規格的起居與服務體驗。</p>
+              <p class="dialog-hint">
+                尊榮頂級配置，適合招待貴賓或重要行程，提供更高規格的起居與服務體驗。
+              </p>
 
               <div class="section">
                 <h3 class="section-title">房型摘要</h3>
                 <div class="grid">
-                  <div class="item"><span class="k">房間大小</span><span class="v">80 ㎡ 以上</span></div>
-                  <div class="item"><span class="k">床型</span><span class="v">特大床 1–2 張</span></div>
-                  <div class="item"><span class="k">入住人數</span><span class="v">最多 2–4 位（依規定）</span></div>
-                  <div class="item"><span class="k">景觀</span><span class="v">高樓層城市景觀（依房況）</span></div>
+                  <div class="item">
+                    <span class="k">房間大小</span
+                    ><span class="v">80 ㎡ 以上</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">床型</span
+                    ><span class="v">特大床 1–2 張</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">入住人數</span
+                    ><span class="v">最多 2–4 位（依規定）</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">景觀</span
+                    ><span class="v">高樓層城市景觀（依房況）</span>
+                  </div>
                 </div>
                 <p class="note">備註：總統套房如需預訂，請來電洽詢。</p>
               </div>
@@ -431,25 +601,52 @@
               <div class="section">
                 <h3 class="section-title">浴室設施</h3>
                 <div class="grid">
-                  <div class="item"><span class="k">乾濕分離</span><span class="v">有</span></div>
-                  <div class="item"><span class="k">浴缸</span><span class="v">有（大型浴缸）</span></div>
-                  <div class="item"><span class="k">淋浴</span><span class="v">花灑淋浴／手持蓮蓬頭</span></div>
-                  <div class="item"><span class="k">備品</span><span class="v">高規格備品（依飯店政策）</span></div>
+                  <div class="item">
+                    <span class="k">乾濕分離</span><span class="v">有</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">浴缸</span
+                    ><span class="v">有（大型浴缸）</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">淋浴</span
+                    ><span class="v">花灑淋浴／手持蓮蓬頭</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">備品</span
+                    ><span class="v">高規格備品（依飯店政策）</span>
+                  </div>
                 </div>
               </div>
 
               <div class="section">
                 <h3 class="section-title">入住資訊</h3>
                 <div class="grid">
-                  <div class="item"><span class="k">入住 / 退房</span><span class="v">15:00 / 11:00</span></div>
-                  <div class="item"><span class="k">禁菸</span><span class="v">全館禁菸（違規將收取清潔費）</span></div>
-                  <div class="item"><span class="k">備註</span><span class="v">如需安排特別需求，請提前洽詢</span></div>
-                  <div class="item"><span class="k">訂房</span><span class="v">需來電洽詢（總統套房）</span></div>
+                  <div class="item">
+                    <span class="k">入住 / 退房</span
+                    ><span class="v">15:00 / 11:00</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">禁菸</span
+                    ><span class="v">全館禁菸（違規將收取清潔費）</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">備註</span
+                    ><span class="v">如需安排特別需求，請提前洽詢</span>
+                  </div>
+                  <div class="item">
+                    <span class="k">訂房</span
+                    ><span class="v">需來電洽詢（總統套房）</span>
+                  </div>
                 </div>
               </div>
 
               <div class="actions">
-                <Button class="InfoButton" label="我了解了" @click="presidentVisible = false" />
+                <Button
+                  class="InfoButton"
+                  label="我了解了"
+                  @click="presidentVisible = false"
+                />
               </div>
             </div>
           </Dialog>
@@ -504,13 +701,10 @@ import Dialog from "primevue/dialog";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 
-
 const infoVisible = ref(false);
 const twinVisible = ref(false);
 const deluxeVisible = ref(false);
 const presidentVisible = ref(false);
-
-
 </script>
 
 <style scoped>
@@ -896,9 +1090,6 @@ const presidentVisible = ref(false);
     min-width: 84px;
   }
 }
-
-
-
 
 /* Sidebar */
 .w3-sidebar {
